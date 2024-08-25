@@ -19,11 +19,24 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 # %% ../nbs/01_teacher-model-for-distillation.ipynb 24
 if __name__ == "__main__":
     show_metrics = True
+    build_block = False
+    
     
     """ Load data """
     pkl_dir = '/home/scai/phd/aiz218323/scratch/datasets'
     pkl_file = f'{pkl_dir}/processed/wikiseealsotitles_data-meta_distilbert-base-uncased_xcs_cat-128.pkl'
-    with open(pkl_file, 'rb') as file: block = pickle.load(file)
+
+    if build_block:
+        data_dir = '/home/scai/phd/aiz218323/Projects/XC_NLG/data'
+        block = XCBlock.from_cfg(data_dir, 'data_meta', transform_type='xcs', tokenizer='distilbert-base-uncased', 
+                                 sampling_features=[('lbl2data',1)], oversample=True)
+
+        block = AugmentMetaInputIdsTfm.apply(block, 'cat_meta', 'data', 128, True)
+        block = AugmentMetaInputIdsTfm.apply(block, 'cat_meta', 'lbl', 128, True)
+
+        with open(pkl_file, 'wb') as file: pickle.dump(block, file)
+    else:
+        with open(pkl_file, 'rb') as file: block = pickle.load(file)
 
     """ Augment metadata """
     block.train.dset.data.data_info['input_ids'] = block.train.dset.data.data_info['input_ids_aug_cat']
