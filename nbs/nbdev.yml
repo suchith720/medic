@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "medic"
+  site-url: "https://suchith720.github.io/medic"
+  description: "Metadata Infusion through Model Distillation for Extreme Classification"
+  repo-branch: main
+  repo-url: "https://github.com/suchith720/medic"
