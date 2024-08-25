@@ -10,8 +10,7 @@ d = { 'settings': { 'branch': 'main',
             'medic.02_distillation-for-wikiseealsotitles-with-oak': { 'medic.02_distillation-for-wikiseealsotitles-with-oak.XCLearner.create_optimizer_and_scheduler': ( 'distillation-for-wikiseealsotitles-with-oak.html#xclearner.create_optimizer_and_scheduler',
                                                                                                                                                                          'medic/02_distillation-for-wikiseealsotitles-with-oak.py')},
             'medic.03_ngame-for-wikititles-with-input-concatenation': {},
-            'medic.04_distillation-for-wikiseealso-with-oak': { 'medic.04_distillation-for-wikiseealso-with-oak.XCLearner.create_optimizer_and_scheduler': ( 'distillation-for-wikiseealso-with-oak.html#xclearner.create_optimizer_and_scheduler',
-                                                                                                                                                             'medic/04_distillation-for-wikiseealso-with-oak.py')},
-            'medic.05_distillation-for-wikiseealsotitles-with-oak-classifier': { 'medic.05_distillation-for-wikiseealsotitles-with-oak-classifier.XCLearner.create_optimizer_and_scheduler': ( 'extreme-classifiers.html#xclearner.create_optimizer_and_scheduler',
-                                                                                                                                                                                               'medic/05_distillation-for-wikiseealsotitles-with-oak-classifier.py')},
-            'medic.05_extreme-classifiers': {}}}
+            'medic.04_distillation-for-wikititles-with-oak': { 'medic.04_distillation-for-wikititles-with-oak.XCLearner.create_optimizer_and_scheduler': ( 'distillation-for-wikititles-with-oak.html#xclearner.create_optimizer_and_scheduler',
+                                                                                                                                                           'medic/04_distillation-for-wikititles-with-oak.py')},
+            'medic.05_extreme-classifiers': {},
+            'medic.06_create-data-block': {}}}
