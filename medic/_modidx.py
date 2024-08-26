@@ -15,4 +15,11 @@ d = { 'settings': { 'branch': 'main',
             'medic.05_extreme-classifiers': {},
             'medic.06_create-data-block': {},
             'medic.07_oak-for-wikititles': { 'medic.07_oak-for-wikititles.XCLearner.create_optimizer_and_scheduler': ( 'oak-for-wikititles.html#xclearner.create_optimizer_and_scheduler',
-                                                                                                                       'medic/07_oak-for-wikititles.py')}}}
+                                                                                                                       'medic/07_oak-for-wikititles.py')},
+            'medic.08_distillation-with-oak-inference': {},
+            'medic.09_combine-predictions': { 'medic.09_combine-predictions.PredictionArguements': ( 'combine-predictions.html#predictionarguements',
+                                                                                                     'medic/09_combine-predictions.py'),
+                                              'medic.09_combine-predictions.get_predictions': ( 'combine-predictions.html#get_predictions',
+                                                                                                'medic/09_combine-predictions.py'),
+                                              'medic.09_combine-predictions.get_sparse_predictions': ( 'combine-predictions.html#get_sparse_predictions',
+                                                                                                       'medic/09_combine-predictions.py')}}}
