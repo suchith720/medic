@@ -13,4 +13,6 @@ d = { 'settings': { 'branch': 'main',
             'medic.04_distillation-for-wikititles-with-oak': { 'medic.04_distillation-for-wikititles-with-oak.XCLearner.create_optimizer_and_scheduler': ( 'distillation-for-wikititles-with-oak.html#xclearner.create_optimizer_and_scheduler',
                                                                                                                                                            'medic/04_distillation-for-wikititles-with-oak.py')},
             'medic.05_extreme-classifiers': {},
-            'medic.06_create-data-block': {}}}
+            'medic.06_create-data-block': {},
+            'medic.07_oak-for-wikititles': { 'medic.07_oak-for-wikititles.XCLearner.create_optimizer_and_scheduler': ( 'oak-for-wikititles.html#xclearner.create_optimizer_and_scheduler',
+                                                                                                                       'medic/07_oak-for-wikititles.py')}}}
