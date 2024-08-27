@@ -22,4 +22,6 @@ d = { 'settings': { 'branch': 'main',
                                               'medic.09_combine-predictions.get_predictions': ( 'combine-predictions.html#get_predictions',
                                                                                                 'medic/09_combine-predictions.py'),
                                               'medic.09_combine-predictions.get_sparse_predictions': ( 'combine-predictions.html#get_sparse_predictions',
-                                                                                                       'medic/09_combine-predictions.py')}}}
+                                                                                                       'medic/09_combine-predictions.py')},
+            'medic.10_oak-for-wikiseealsotitles': { 'medic.10_oak-for-wikiseealsotitles.XCLearner.create_optimizer_and_scheduler': ( 'oak-for-wikiseealsotitles.html#xclearner.create_optimizer_and_scheduler',
+                                                                                                                                     'medic/10_oak-for-wikiseealsotitles.py')}}}
