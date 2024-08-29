@@ -16,10 +16,18 @@ os.environ['WANDB_PROJECT']='medic_05-classifiers'
 # %% ../nbs/05_extreme-classifiers.ipynb 16
 if __name__ == '__main__':
     build_block = False
+    dataset_type = 'wikiseealsotitles'
+    model_output = '/home/aiscuser/scratch/Projects/xc_nlg/outputs/86-distillation-for-wikiseealso-with-oak-7-3-4'
+    output_dir = '/home/scai/phd/aiz218323/scratch/outputs/medic/05_extreme-classifiers'
 
     """ Load data """
     pkl_dir = '/home/scai/phd/aiz218323/scratch/datasets/'
-    pkl_file = f'{pkl_dir}/processed/wikiseealsotitles_data_distilbert-base-uncased_xcs.pkl'
+
+    if dataset_type == 'wikiseealsotitles': pkl_file = f'{pkl_dir}/processed/wikiseealsotitles_data_distilbert-base-uncased_xcs.pkl'
+    elif dataset_type == 'wikititles': pkl_file = f'{pkl_dir}/processed/wikititles_data_distilbert-base-uncased_xcs.pkl'
+    elif dataset_type == 'wikiseealso': pkl_file = f'{pkl_dir}/processed/wikiseealso_data_distilbert-base-uncased_xcs.pkl'
+    elif dataset_type == 'wikipedia': pkl_file = f'{pkl_dir}/processed/wikipedia_data_distilbert-base-uncased_xcs.pkl'
+    else: raise ValueError(f'Invalid `dataset_type`: {dataset_type}')
 
     if build_block:
         data_dir = '/home/scai/phd/aiz218323/Projects/XC_NLG/data'
@@ -31,7 +39,7 @@ if __name__ == '__main__':
 
     """ Training arguements """
     args = XCLearningArguments(
-        output_dir='/home/scai/phd/aiz218323/scratch/outputs/medic/05_extreme-classifiers',
+        output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=800,
         per_device_eval_batch_size=800,
@@ -68,16 +76,9 @@ if __name__ == '__main__':
         fp16=True,
     )
 
-    """ Teacher model """
-    model_output = '/home/scai/phd/aiz218323/scratch/outputs/67-ngame-ep-for-wikiseealso-with-input-concatenation-1-4'
-    m_teacher = TCH003.from_pretrained(f'{model_output}/teacher', n_data=block.train.dset.n_data)
-    
-    m_teacher.freeze_embeddings()
-
     """ Classifiers """
     bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
-
-    model_output = f"/home/aiscuser/scratch/Projects/xc_nlg/outputs/86-distillation-for-wikiseealso-with-oak-7-3-4"
+    
     model = CLS001.from_pretrained(f'{model_output}/representation', n_train=block.train.dset.n_data, 
                                    n_test=block.test.dset.n_data, n_lbl=block.n_lbl, batch_size=bsz, 
                                    num_batch_labels=5000, margin=0.3, num_negatives=10, tau=0.1, apply_softmax=True)

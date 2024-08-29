@@ -51,6 +51,9 @@ def create_optimizer_and_scheduler(self:XCLearner, num_training_steps: int):
 # %% ../nbs/04_distillation-for-wikititles-with-oak.ipynb 8
 if __name__ == '__main__':
     build_block = False
+    output_dir = '/home/scai/phd/aiz218323/scratch/outputs/medic/04_distillation-for-wikititles-with-oak'
+    model_output = '/home/scai/phd/aiz218323/scratch/outputs/67-ngame-ep-for-wikiseealso-with-input-concatenation-1-4'
+    meta_embed_file = '/home/aiscuser/scratch/OGB_Weights/LF-WikiSeeAlsoTitles-320K/emb_weights.npy'
 
     """ Load data """
     pkl_dir = '/home/scai/phd/aiz218323/scratch/datasets/'
@@ -81,7 +84,7 @@ if __name__ == '__main__':
 
     """ Training arguements """
     args = XCLearningArguments(
-        output_dir='/home/scai/phd/aiz218323/scratch/outputs/medic/04_distillation-for-wikititles-with-oak',
+        output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=800,
         per_device_eval_batch_size=800,
@@ -150,12 +153,13 @@ if __name__ == '__main__':
     
         use_cpu_for_searching=True,
         use_cpu_for_clustering=False,
+
+        free_parameter_warmup_steps=0,
+        free_parameter_lr_coefficient=1000,
     )
 
     """ Teacher model """
-    model_output = '/home/scai/phd/aiz218323/scratch/outputs/67-ngame-ep-for-wikiseealso-with-input-concatenation-1-4'
     m_teacher = TCH003.from_pretrained(f'{model_output}/teacher', n_data=block.train.dset.n_data)
-    
     m_teacher.freeze_embeddings()
 
     """ Student model """
@@ -178,16 +182,14 @@ if __name__ == '__main__':
                                        
                                        fusion_loss_weight=0.1, use_fusion_loss=False,
                                        
-                                       use_encoder_parallel=False)
+                                       use_encoder_parallel=True)
     
     m_student.init_retrieval_head()
     m_student.init_cross_head()
     m_student.init_meta_embeddings()
     
-    meta_embed_file = '/home/aiscuser/scratch/OGB_Weights/LF-WikiSeeAlsoTitles-320K/emb_weights.npy'
     # meta_embeddings = np.load(meta_embed_file)
     # model.encoder.set_pretrained_meta_embeddings(torch.tensor(meta_embeddings, dtype=torch.float32))
-    
     m_student.encoder.set_pretrained_meta_embeddings(torch.zeros(block.train.dset.meta['lnk_meta'].n_meta, model.config.dim))
     m_student.encoder.freeze_pretrained_meta_embeddings()
 
