@@ -39,4 +39,6 @@ d = { 'settings': { 'branch': 'main',
             'medic.11_ngame-for-wikiseealso-with-input-concatenation': {},
             'medic.12_ngame-for-wikipedia-with-input-concatenation': {},
             'medic.13_distillation-for-wikiseealsotitles-with-oak': {},
-            'medic.14_distillation-for-wikititles-with-oak': {}}}
+            'medic.14_distillation-for-wikititles-with-oak': {},
+            'medic.15_oak-for-wikititles': { 'medic.15_oak-for-wikititles.XCLearner.create_optimizer_and_scheduler': ( 'oak-for-wikititles.html#xclearner.create_optimizer_and_scheduler',
+                                                                                                                       'medic/15_oak-for-wikititles.py')}}}
