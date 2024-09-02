@@ -4,11 +4,11 @@
 __all__ = []
 
 # %% ../nbs/15_oak-for-wikititles.ipynb 2
-import os,torch, torch.multiprocessing as mp, pickle, numpy as np
+import os,torch, torch.multiprocessing as mp, pickle, numpy as np, transformers
 from transformers import DistilBertConfig
 
 from xcai.basics import *
-from xcai.models.oakX import OAK001
+from xcai.models.oak import OAK006
 from xcai.optimizers.oakX import MultipleOptimizer, MultipleScheduler
 
 from xclib.utils.sparse import retain_topk
@@ -161,7 +161,7 @@ if __name__ == '__main__':
     """ Student model """
     bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
 
-    model = OAK001.from_pretrained('sentence-transformers/msmarco-distilbert-base-v4', batch_size=bsz, num_batch_labels=5000, 
+    model = OAK006.from_pretrained('sentence-transformers/msmarco-distilbert-base-v4', batch_size=bsz, num_batch_labels=5000, 
                                    margin=0.3, num_negatives=10, tau=0.1, apply_softmax=True,
                                        
                                    data_aug_meta_prefix='lnk2data', lbl2data_aug_meta_prefix=None, 

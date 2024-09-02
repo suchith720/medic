@@ -4,7 +4,7 @@
 __all__ = []
 
 # %% ../nbs/07_oak-for-wikititles.ipynb 2
-import os,torch, torch.multiprocessing as mp, pickle, numpy as np
+import os,torch, torch.multiprocessing as mp, pickle, numpy as np, transformers
 from transformers import DistilBertConfig
 
 from xcai.basics import *
@@ -36,7 +36,7 @@ def create_optimizer_and_scheduler(self:XCLearner, num_training_steps: int):
     ]
 
     optimizer_list = [torch.optim.AdamW(params, **{'lr': self.args.learning_rate, 'eps': 1e-6}),
-                      torch.optim.AdamW(sparse, **{'lr': self.args.learning_rate * self.args.free_parameter_lr_coefficient, 'eps': 1e-6})]
+                      torch.optim.SparseAdam(sparse, **{'lr': self.args.learning_rate * self.args.free_parameter_lr_coefficient, 'eps': 1e-6})]
 
     self.optimizer = MultipleOptimizer(optimizer_list)
     scheduler_list = [transformers.get_linear_schedule_with_warmup(self.optimizer.optimizers[0], num_warmup_steps=self.args.warmup_steps,
@@ -51,12 +51,15 @@ def create_optimizer_and_scheduler(self:XCLearner, num_training_steps: int):
 if __name__ == '__main__':
     build_block = False
 
-    """ Load data """
+    data_dir = '/home/scai/phd/aiz218323/Projects/XC_NLG/data'
     pkl_dir = '/home/scai/phd/aiz218323/scratch/datasets/'
-    pkl_file = f'{pkl_dir}/processed/wikititles_data-lnk_distilbert-base-uncased_xcs.pkl'
+    output_dir = '/home/scai/phd/aiz218323/scratch/outputs/medic/07_oak-for-wikititles'
 
+    meta_embed_file = '/home/aiscuser/scratch/OGB_Weights/LF-WikiTitles-500K/embs_weight.npy'
+
+    """ Load data """
+    pkl_file = f'{pkl_dir}/processed/wikititles_data-lnk_distilbert-base-uncased_xcs.pkl'
     if build_block:
-        data_dir = '/home/scai/phd/aiz218323/Projects/XC_NLG/data'
         block = XCBlock.from_cfg(data_dir, 'data_lnk', dset='wikititles', transform_type='xcs', tokenizer='distilbert-base-uncased', 
                                  sampling_features=[('lbl2data',4), ('lnk2data',3)], oversample=True)
         with open(pkl_file, 'wb') as file: pickle.dump(block, file)
@@ -80,7 +83,7 @@ if __name__ == '__main__':
 
     """ Training arguements """
     args = XCLearningArguments(
-        output_dir='/home/scai/phd/aiz218323/scratch/outputs/medic/07_oak-for-wikititles',
+        output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=800,
         per_device_eval_batch_size=800,
@@ -148,7 +151,10 @@ if __name__ == '__main__':
         num_metadata_augment_epochs=5,
     
         use_cpu_for_searching=True,
-        use_cpu_for_clustering=False,
+        use_cpu_for_clustering=True,
+
+        free_parameter_warmup_steps=0,
+        free_parameter_lr_coefficient=1000,
     )
 
     """ Model """
@@ -171,16 +177,14 @@ if __name__ == '__main__':
                                    
                                    fusion_loss_weight=0.1, use_fusion_loss=False,
                                    
-                                   use_encoder_parallel=False)
+                                   use_encoder_parallel=True)
     
     model.init_retrieval_head()
     model.init_cross_head()
     model.init_meta_embeddings()
     
-    meta_embed_file = '/home/aiscuser/scratch/OGB_Weights/LF-WikiSeeAlsoTitles-320K/emb_weights.npy'
     # meta_embeddings = np.load(meta_embed_file)
     # model.encoder.set_pretrained_meta_embeddings(torch.tensor(meta_embeddings, dtype=torch.float32))
-    
     model.encoder.set_pretrained_meta_embeddings(torch.zeros(block.train.dset.meta['lnk_meta'].n_meta, model.config.dim))
     model.encoder.freeze_pretrained_meta_embeddings()
 

@@ -95,8 +95,8 @@ pkl_dir = '/home/scai/phd/aiz218323/scratch/datasets/'
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser(description='create data block.')
-    parser.add_argument('experiment_type', type=str)
-    parser.add_argument('dataset_name', type=str)
+    parser.add_argument('--experiment_type', type=str, required=True)
+    parser.add_argument('--dataset_name', type=str, required=True)
     args = parser.parse_args()
 
     experiment_type, dataset_name = args.experiment_type, args.dataset_name
