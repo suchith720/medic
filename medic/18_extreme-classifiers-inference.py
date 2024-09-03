@@ -104,6 +104,10 @@ if __name__ == '__main__':
 
     o = learn.predict(block.test.dset)
     with open(f'{pred_dir}/test_predictions.pkl', 'wb') as file: pickle.dump(block, file)
+
+    learn.model.perform_train_inference = True
+    o = learn.predict(block.train.dset)
+    with open(f'{pred_dir}/train_predictions.pkl', 'wb') as file: pickle.dump(block, file)
     
     display_metric(o.metrics)
     
