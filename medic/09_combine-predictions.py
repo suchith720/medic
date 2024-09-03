@@ -132,13 +132,18 @@ if __name__ == '__main__':
     fuser.fit(train_a, train_b, block.train.dset.data.data_lbl, n_samples=1000)
 
     pred = fuser.predict(test_a, test_b, beta=1.0)
-    output = {
-        'targ_idx': torch.tensor(block.test.dset.data.data_lbl.indices),
-        'targ_ptr': torch.tensor([q-p for p,q in zip(block.test.dset.data.data_lbl.indptr, block.test.dset.data.data_lbl.indptr[1:])]),
-        'pred_idx': torch.tensor(pred.indices),
-        'pred_ptr': torch.tensor([q-p for p,q in zip(pred.indptr, pred.indptr[1:])]),
-        'pred_score': torch.tensor(pred.data),
-    }
+
+    def get_output(block, pred):
+        output = {
+            'targ_idx': torch.tensor(block.test.dset.data.data_lbl.indices),
+            'targ_ptr': torch.tensor([q-p for p,q in zip(block.test.dset.data.data_lbl.indptr, block.test.dset.data.data_lbl.indptr[1:])]),
+            'pred_idx': torch.tensor(pred.indices),
+            'pred_ptr': torch.tensor([q-p for p,q in zip(pred.indptr, pred.indptr[1:])]),
+            'pred_score': torch.tensor(pred.data),
+        }
+        return output
+
+    output = get_output(block, pred)
     metric = PrecRecl(block.n_lbl, block.test.data_lbl_filterer, prop=block.train.dset.data.data_lbl,
                   pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200])
     m = metric(**output)
