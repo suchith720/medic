@@ -50,6 +50,7 @@ def create_optimizer_and_scheduler(self:XCLearner, num_training_steps: int):
 # %% ../nbs/07_oak-for-wikititles.ipynb 8
 if __name__ == '__main__':
     build_block = False
+    save_representation = True
 
     data_dir = '/home/scai/phd/aiz218323/Projects/XC_NLG/data'
     pkl_dir = '/home/scai/phd/aiz218323/scratch/datasets/'
@@ -203,4 +204,38 @@ if __name__ == '__main__':
     
     mp.freeze_support()
     learn.train()
+
+    if save_representation:
+        learn.args.use_data_metadata_for_representation=True
+        
+        mname = f'{args.output_dir}/{os.path.basename(get_best_model(args.output_dir))}'
+        model = OAK001.from_pretrained(mname, batch_size=bsz, num_batch_labels=5000, 
+                                       margin=0.3, num_negatives=10, tau=0.1, apply_softmax=True,
+                                       
+                                       data_aug_meta_prefix='lnk2data', lbl2data_aug_meta_prefix=None, 
+                                       data_pred_meta_prefix=None, lbl2data_pred_meta_prefix=None,
+                                       
+                                       num_metadata=block.train.dset.meta['lnk_meta'].n_meta, resize_length=5000,
+                                       
+                                       calib_margin=0.3, calib_num_negatives=10, calib_tau=0.1, calib_apply_softmax=False, 
+                                       calib_loss_weight=0.1, use_calib_loss=True,
+                                       
+                                       use_query_loss=True,
+                                       
+                                       meta_loss_weight=0.0,
+                                       
+                                       fusion_loss_weight=0.1, use_fusion_loss=False,
+                                       
+                                       use_encoder_parallel=True)
+        
+        train_rep, lbl_rep = learn.get_data_and_lbl_representation(learn.train_dataset)
+        test_rep = learn._get_data_representation(learn.eval_dataset)
+        
+        model = CLS001(DistilBertConfig(), n_train=block.train.dset.n_data, n_test=block.test.dset.n_data, n_lbl=block.n_lbl, 
+                       batch_size=100, num_batch_labels=5000, margin=0.3, num_negatives=10, tau=0.1, apply_softmax=True)
+        model.init_representation(train_rep, test_rep, lbl_rep)
+        
+        fname = f'{os.path.dirname(mname)}/representation'
+        model.save_pretrained(fname)
+        
     

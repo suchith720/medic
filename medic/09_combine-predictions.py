@@ -82,33 +82,20 @@ def get_sparse_predictions(dirname, run_name, use_centroid_label_representation,
 # %% ../nbs/09_combine-predictions.ipynb 18
 if __name__ == '__main__':
     build_block = False
+    pkl_dir = '/home/scai/phd/aiz218323/scratch/datasets/'
+    data_dir = '/home/scai/phd/aiz218323/Projects/XC_NLG/data'
 
     """ Load data """
-    pkl_dir = '/home/scai/phd/aiz218323/scratch/datasets/'
-    pkl_file = f'{pkl_dir}/processed/wikiseealsotitles_data-lnk_distilbert-base-uncased_xcs.pkl'
-    
+    pkl_file = f'{pkl_dir}/processed/wikiseealsotitles_data_distilbert-base-uncased_xcs.pkl'
     if build_block:
-        data_dir = '/home/scai/phd/aiz218323/Projects/XC_NLG/data'
-        block = XCBlock.from_cfg(data_dir, 'data_lnk', transform_type='xcs', tokenizer='distilbert-base-uncased', 
-                                 sampling_features=[('lbl2data',4), ('lnk2data',3)], oversample=True)
+        block = XCBlock.from_cfg(data_dir, 'data', transform_type='xcs', tokenizer='distilbert-base-uncased', 
+                                 sampling_features=[('lbl2data',1)], oversample=False)
         with open(pkl_file, 'wb') as file: pickle.dump(block, file)
     else:
         with open(pkl_file, 'rb') as file: block = pickle.load(file)
     
-    """ Prune metadata """
-    data_meta = retain_topk(block.train.dset.meta.lnk_meta.data_meta, k=5)
-    lbl_meta = block.train.dset.meta.lnk_meta.lbl_meta
-    block.train.dset.meta.lnk_meta.update_meta_matrix(data_meta, lbl_meta)
-    
-    data_meta = retain_topk(block.test.dset.meta.lnk_meta.data_meta, k=3)
-    lbl_meta = block.test.dset.meta.lnk_meta.lbl_meta
-    block.test.dset.meta.lnk_meta.update_meta_matrix(data_meta, lbl_meta)
-    
-    block.collator.tfms.tfms[0].sampling_features = [('lbl2data',4),('lnk2data',3)]
-    block.collator.tfms.tfms[0].oversample = True
-    
-    block.train.dset.meta.lnk_meta.meta_info = None
-    block.test.dset.meta.lnk_meta.meta_info = None
+    block.collator.tfms.tfms[0].sampling_features = [('lbl2data',1)]
+    block.collator.tfms.tfms[0].oversample = False
 
     """ Load predictions """
     output_dir = '/home/scai/phd/aiz218323/scratch/outputs/'
@@ -125,6 +112,7 @@ if __name__ == '__main__':
                                              centroid_data_attribute_representation, centroid_data_batch_size, use_teacher_lbl_representation, 
                                              use_teacher_data_representation)
 
+    output_dir = '/home/scai/phd/aiz218323/scratch/outputs/'
     run_name = '64-ngame-ep-for-wikiseealso-with-entropy-loss-1-0'
 
     use_centroid_label_representation=False

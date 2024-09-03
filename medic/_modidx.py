@@ -41,4 +41,8 @@ d = { 'settings': { 'branch': 'main',
             'medic.13_distillation-for-wikiseealsotitles-with-oak': {},
             'medic.14_distillation-for-wikititles-with-oak': {},
             'medic.15_oak-for-wikititles': { 'medic.15_oak-for-wikititles.XCLearner.create_optimizer_and_scheduler': ( 'oak-for-wikititles.html#xclearner.create_optimizer_and_scheduler',
-                                                                                                                       'medic/15_oak-for-wikititles.py')}}}
+                                                                                                                       'medic/15_oak-for-wikititles.py')},
+            'medic.16_distillation-with-oak-inference': { 'medic.16_distillation-with-oak-inference.get_predictions': ( 'distillation-with-oak-inference.html#get_predictions',
+                                                                                                                        'medic/16_distillation-with-oak-inference.py')},
+            'medic.17_distillation-with-oakX-inference': { 'medic.17_distillation-with-oakX-inference.get_predictions': ( 'distillation-with-oakx-inference.html#get_predictions',
+                                                                                                                          'medic/17_distillation-with-oakX-inference.py')}}}

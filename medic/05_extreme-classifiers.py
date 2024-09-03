@@ -37,12 +37,15 @@ if __name__ == '__main__':
     else:
         with open(pkl_file, 'rb') as file: block = pickle.load(file)
 
+    block.collator.tfms.tfms[0].sampling_features = [('lbl2data',4)]
+    block.collator.tfms.tfms[0].oversample = True
+
     """ Training arguements """
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
-        per_device_train_batch_size=800,
-        per_device_eval_batch_size=800,
+        per_device_train_batch_size=4098,
+        per_device_eval_batch_size=1600,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",

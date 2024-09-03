@@ -20,9 +20,10 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 if __name__ == "__main__":
     show_metrics = True
     dataset_type = 'wikiseealsotitles'
+    pkl_dir = '/home/scai/phd/aiz218323/scratch/datasets'
+    output_dir = '/home/scai/phd/aiz218323/scratch/outputs/67-ngame-ep-for-wikiseealso-with-input-concatenation-1-4'
     
     """ Load data """
-    pkl_dir = '/home/scai/phd/aiz218323/scratch/datasets'
 
     if dataset_type == 'wikiseealsotitles':
         pkl_file = f'{pkl_dir}/processed/wikiseealsotitles_data-meta_distilbert-base-uncased_xcs_cat-128.pkl'
@@ -67,7 +68,7 @@ if __name__ == "__main__":
 
     """ Inference arguements """
     args = XCLearningArguments(
-        output_dir='/home/scai/phd/aiz218323/scratch/outputs/67-ngame-ep-for-wikiseealso-with-input-concatenation-1-4',
+        output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=800,
         per_device_eval_batch_size=800,
@@ -82,8 +83,7 @@ if __name__ == "__main__":
     )
 
     """ Load model """
-    output_dir = f"/home/scai/phd/aiz218323/scratch/outputs/{os.path.basename(args.output_dir)}"
-    mname = f'{output_dir}/{os.path.basename(get_best_model(output_dir))}'
+    mname = f'{args.output_dir}/{os.path.basename(get_best_model(args.output_dir))}'
 
     model_weight_file,model_weights = f'{mname}/model.safetensors',{}
     with safe_open(model_weight_file, framework="pt") as file:
