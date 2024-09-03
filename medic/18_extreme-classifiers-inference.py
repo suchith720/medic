@@ -81,14 +81,11 @@ if __name__ == '__main__':
 
     """ Classifiers """
     bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
+    mname = f'{output_dir}/{os.path.basename(get_best_model(output_dir))}'
     
-    model = CLS001.from_pretrained(f'{model_output}/representation', n_train=block.train.dset.n_data, 
-                                   n_test=block.test.dset.n_data, n_lbl=block.n_lbl, batch_size=bsz, 
+    model = CLS001.from_pretrained(mname, n_train=block.train.dset.n_data, n_test=block.test.dset.n_data, n_lbl=block.n_lbl, batch_size=bsz, 
                                    num_batch_labels=5000, margin=0.3, num_negatives=10, tau=0.1, apply_softmax=True)
-
-    model.freeze_representation()
-    model.init_lbl_embeddings()
-
+    
     """ Training """
     metric = PrecRecl(block.n_lbl, block.test.data_lbl_filterer, prop=block.train.dset.data.data_lbl,
                       pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200])
