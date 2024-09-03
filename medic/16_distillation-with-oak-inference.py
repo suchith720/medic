@@ -204,15 +204,16 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
 
-    train_pred_file, test_pred_file = get_predictions(output_dir, args)
+    os.makedirs(f'{output_dir}/predictions', exist_ok=True)
+    train_pred_file, test_pred_file = get_predictions(f'{output_dir}/predictions', args)
 
     o = learn.predict(block.test.dset)
-    with open(test_pred_file, 'rb') as file: pickle.dump(block, file)
+    with open(test_pred_file, 'wb') as file: pickle.dump(block, file)
     display_metric(o.metrics)
 
     if train_pred_file:
         o = learn.predict(block.train.dset)
-        with open(train_pred_file, 'rb') as file: pickle.dump(block, file)
+        with open(train_pred_file, 'wb') as file: pickle.dump(block, file)
         display_metric(o.metrics)
         
     
