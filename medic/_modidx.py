@@ -46,4 +46,5 @@ d = { 'settings': { 'branch': 'main',
                                                                                                                         'medic/16_distillation-with-oak-inference.py')},
             'medic.17_distillation-with-oakX-inference': { 'medic.17_distillation-with-oakX-inference.get_predictions': ( 'distillation-with-oakx-inference.html#get_predictions',
                                                                                                                           'medic/17_distillation-with-oakX-inference.py')},
-            'medic.18_extreme-classifiers-inference': {}}}
+            'medic.18_extreme-classifiers-inference': {},
+            'medic.19_distillation-for-wikiseealso-with-oak': {}}}
