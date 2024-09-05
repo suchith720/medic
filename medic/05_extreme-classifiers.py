@@ -8,7 +8,7 @@ import os,torch, torch.multiprocessing as mp, pickle, numpy as np
 
 from xcai.basics import *
 from xcai.models.classifiers import CLS001
-from xcai.models.distillation import DTL004, TCH001
+from xcai.models.distillation import DTL006, TCH001
 
 # %% ../nbs/05_extreme-classifiers.ipynb 4
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
@@ -80,6 +80,8 @@ if __name__ == '__main__':
         use_encoder_parallel=True,
         max_grad_norm=None,
         fp16=True,
+
+        label_names=['lbl2data_idx', 'lbl2data_input_ids', 'lbl2data_attention_mask'],
     )
     """ Teacher model """
     m_teacher = TCH001.from_pretrained(f'{teacher_dir}/teacher', n_data=block.train.dset.n_data, n_lbl=block.n_lbl)
@@ -96,7 +98,7 @@ if __name__ == '__main__':
     m_student.init_lbl_embeddings()
 
     """ Distillation model """
-    model = DTL004(DistilBertConfig(), m_student=m_student, m_teacher=m_teacher, bsz=bsz, tn_targ=5000, margin=0.3, tau=0.1, 
+    model = DTL006(DistilBertConfig(), m_student=m_student, m_teacher=m_teacher, bsz=bsz, tn_targ=5000, margin=0.3, tau=0.1, 
                    n_negatives=10, apply_softmax=True, teacher_data_student_label_loss_weight=1.0, 
                    student_data_teacher_label_loss_weight=1.0, data_mse_loss_weight=0.1, label_mse_loss_weight=0.1)
 
