@@ -8,21 +8,25 @@ import os,torch, torch.multiprocessing as mp, pickle, numpy as np
 
 from xcai.basics import *
 from xcai.models.classifiers import CLS001
+from xcai.models.distillation import DTL004, TCH001
 
 # %% ../nbs/05_extreme-classifiers.ipynb 4
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 os.environ['WANDB_PROJECT']='medic_05-classifiers'
 
-# %% ../nbs/05_extreme-classifiers.ipynb 16
+# %% ../nbs/05_extreme-classifiers.ipynb 18
 if __name__ == '__main__':
     build_block = False
     dataset_type = 'wikiseealsotitles'
-    model_output = '/home/aiscuser/scratch/Projects/xc_nlg/outputs/86-distillation-for-wikiseealso-with-oak-7-3-4'
+    data_dir = '/home/scai/phd/aiz218323/Projects/XC_NLG/data'
+    pkl_dir = '/home/scai/phd/aiz218323/scratch/datasets/'
+    
+    teacher_dir = '/home/scai/phd/aiz218323/scratch/outputs/67-ngame-ep-for-wikiseealso-with-input-concatenation-1-4'
+    classifier_dir = '/home/aiscuser/scratch/Projects/xc_nlg/outputs/86-distillation-for-wikiseealso-with-oak-7-3-4'
+    
     output_dir = '/home/scai/phd/aiz218323/scratch/outputs/medic/05_extreme-classifiers'
 
     """ Load data """
-    pkl_dir = '/home/scai/phd/aiz218323/scratch/datasets/'
-
     if dataset_type == 'wikiseealsotitles': pkl_file = f'{pkl_dir}/processed/wikiseealsotitles_data_distilbert-base-uncased_xcs.pkl'
     elif dataset_type == 'wikititles': pkl_file = f'{pkl_dir}/processed/wikititles_data_distilbert-base-uncased_xcs.pkl'
     elif dataset_type == 'wikiseealso': pkl_file = f'{pkl_dir}/processed/wikiseealso_data_distilbert-base-uncased_xcs.pkl'
@@ -30,7 +34,6 @@ if __name__ == '__main__':
     else: raise ValueError(f'Invalid `dataset_type`: {dataset_type}')
 
     if build_block:
-        data_dir = '/home/scai/phd/aiz218323/Projects/XC_NLG/data'
         block = XCBlock.from_cfg(data_dir, 'data', transform_type='xcs', tokenizer='distilbert-base-uncased', 
                                  sampling_features=[('lbl2data',4)], oversample=True)
         with open(pkl_file, 'wb') as file: pickle.dump(block, file)
@@ -78,16 +81,24 @@ if __name__ == '__main__':
         max_grad_norm=None,
         fp16=True,
     )
+    """ Teacher model """
+    m_teacher = TCH001.from_pretrained(f'{teacher_dir}/teacher', n_data=block.train.dset.n_data, n_lbl=block.n_lbl)
+    m_teacher.freeze_embeddings()
 
     """ Classifiers """
     bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
     
-    model = CLS001.from_pretrained(f'{model_output}/representation', n_train=block.train.dset.n_data, 
-                                   n_test=block.test.dset.n_data, n_lbl=block.n_lbl, batch_size=bsz, 
-                                   num_batch_labels=5000, margin=0.3, num_negatives=10, tau=0.1, apply_softmax=True)
+    m_student = CLS001.from_pretrained(f'{classifier_dir}/representation', n_train=block.train.dset.n_data, 
+                                       n_test=block.test.dset.n_data, n_lbl=block.n_lbl, batch_size=bsz, 
+                                       num_batch_labels=5000, margin=0.3, num_negatives=10, tau=0.1, apply_softmax=True)
+    
+    m_student.freeze_representation()
+    m_student.init_lbl_embeddings()
 
-    model.freeze_representation()
-    model.init_lbl_embeddings()
+    """ Distillation model """
+    model = DTL004(DistilBertConfig(), m_student=m_student, m_teacher=m_teacher, bsz=bsz, tn_targ=5000, margin=0.3, tau=0.1, 
+                   n_negatives=10, apply_softmax=True, teacher_data_student_label_loss_weight=1.0, 
+                   student_data_teacher_label_loss_weight=1.0, data_mse_loss_weight=0.1, label_mse_loss_weight=0.1)
 
     """ Training """
     metric = PrecRecl(block.n_lbl, block.test.data_lbl_filterer, prop=block.train.dset.data.data_lbl,
