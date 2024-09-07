@@ -48,4 +48,10 @@ d = { 'settings': { 'branch': 'main',
                                                                                                                           'medic/17_distillation-with-oakX-inference.py')},
             'medic.18_extreme-classifiers-inference': {},
             'medic.19_distillation-for-wikiseealso-with-oak': {},
-            'medic.20_prediction-analysis': {}}}
+            'medic.20_prediction-analysis': {},
+            'medic.22_distillation-for-wikiseealsotitles-with-oak': {},
+            'medic.23_ngame-linker-for-wikiseealsotitles': { 'medic.23_ngame-linker-for-wikiseealsotitles.get_meta_dataset': ( 'ngame-linker-for-wikiseealsotitles.html#get_meta_dataset',
+                                                                                                                               'medic/23_ngame-linker-for-wikiseealsotitles.py'),
+                                                             'medic.23_ngame-linker-for-wikiseealsotitles.threshold_meta_dataset': ( 'ngame-linker-for-wikiseealsotitles.html#threshold_meta_dataset',
+                                                                                                                                     'medic/23_ngame-linker-for-wikiseealsotitles.py')},
+            'medic.24_distillation-for-wikiseealsotitles-with-oak-curriculum-learning': {}}}
