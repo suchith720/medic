@@ -31,7 +31,7 @@ def threshold_meta_dataset(train_meta, test_meta, thresh=100):
     return get_meta_dataset(train_meta, idx), get_meta_dataset(test_meta, idx)
     
 
-# %% ../nbs/23_ngame-linker-for-wikiseealsotitles.ipynb 37
+# %% ../nbs/23_ngame-linker-for-wikiseealsotitles.ipynb 41
 if __name__ == '__main__':
     build_block = False
 

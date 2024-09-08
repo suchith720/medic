@@ -54,4 +54,8 @@ d = { 'settings': { 'branch': 'main',
                                                                                                                                'medic/23_ngame-linker-for-wikiseealsotitles.py'),
                                                              'medic.23_ngame-linker-for-wikiseealsotitles.threshold_meta_dataset': ( 'ngame-linker-for-wikiseealsotitles.html#threshold_meta_dataset',
                                                                                                                                      'medic/23_ngame-linker-for-wikiseealsotitles.py')},
-            'medic.24_distillation-for-wikiseealsotitles-with-oak-curriculum-learning': {}}}
+            'medic.24_distillation-for-wikiseealsotitles-with-oak-curriculum-learning': {},
+            'medic.25_distillation-for-wikiseealso-with-oak': { 'medic.25_distillation-for-wikiseealso-with-oak.XCLearner.create_optimizer_and_scheduler': ( 'distillation-for-wikiseealso-with-oak.html#xclearner.create_optimizer_and_scheduler',
+                                                                                                                                                             'medic/25_distillation-for-wikiseealso-with-oak.py')},
+            'medic.26_distillation-for-wikipedia-with-oak': { 'medic.26_distillation-for-wikipedia-with-oak.XCLearner.create_optimizer_and_scheduler': ( 'distillation-for-wikipedia-with-oak.html#xclearner.create_optimizer_and_scheduler',
+                                                                                                                                                         'medic/26_distillation-for-wikipedia-with-oak.py')}}}
