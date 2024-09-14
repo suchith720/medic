@@ -22,7 +22,7 @@ from fastcore.utils import *
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 os.environ['WANDB_PROJECT']='medic_00-wikiseealsotitles'
 
-# %% ../nbs/24_distillation-for-wikiseealsotitles-with-oak-curriculum-learning.ipynb 14
+# %% ../nbs/24_distillation-for-wikiseealsotitles-with-oak-curriculum-learning.ipynb 20
 if __name__ == '__main__':
     build_block = False
 
