@@ -23,7 +23,8 @@ if __name__ == '__main__':
     if build_block:
         data_dir = '/home/scai/phd/aiz218323/Projects/XC_NLG/data'
         block = XCBlock.from_cfg(data_dir, 'data_meta', dset='orcas', transform_type='xcs', tokenizer='distilbert-base-uncased', 
-                                 sampling_features=[('lbl2data',1)], oversample=False)
+                                 sampling_features=[('lbl2data',1)], oversample=False, info_column_names=['identifier', 'input_text'], 
+                                 sep=None)
 
         block = AugmentMetaInputIdsTfm.apply(block, 'gpt_meta', 'data', 128, True)
         block = AugmentMetaInputIdsTfm.apply(block, 'gpt_meta', 'lbl', 128, True)
