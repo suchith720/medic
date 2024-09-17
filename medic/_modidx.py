@@ -59,4 +59,5 @@ d = { 'settings': { 'branch': 'main',
             'medic.25_distillation-for-wikiseealso-with-oak': { 'medic.25_distillation-for-wikiseealso-with-oak.XCLearner.create_optimizer_and_scheduler': ( 'distillation-for-wikiseealso-with-oak.html#xclearner.create_optimizer_and_scheduler',
                                                                                                                                                              'medic/25_distillation-for-wikiseealso-with-oak.py')},
             'medic.26_distillation-for-wikipedia-with-oak': { 'medic.26_distillation-for-wikipedia-with-oak.XCLearner.create_optimizer_and_scheduler': ( 'distillation-for-wikipedia-with-oak.html#xclearner.create_optimizer_and_scheduler',
-                                                                                                                                                         'medic/26_distillation-for-wikipedia-with-oak.py')}}}
+                                                                                                                                                         'medic/26_distillation-for-wikipedia-with-oak.py')},
+            'medic.27_ngame-for-orcas-with-input-concatenation': {}}}

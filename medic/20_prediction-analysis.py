@@ -55,6 +55,8 @@ if __name__ == '__main__':
 
     eval_a = pointwise_eval(plbl_a, block.test.dset.data.data_lbl, block.test.dset.data.data_filterer, topk=topk, metric=metric)
     eval_b = pointwise_eval(plbl_b, block.test.dset.data.data_lbl, block.test.dset.data.data_filterer, topk=topk, metric=metric)
+    eval_a = np.array(eval_a.sum(axis=1)).squeeze()
+    eval_b = np.array(eval_b.sum(axis=1)).squeeze()
     idxs = np.argsort(eval_b - eval_a)[:num_data]
 
     display(HTML(compare_text(pdset_a, pdset_b, test_dset, idxs)))
@@ -94,6 +96,9 @@ if __name__ == '__main__':
 
     eval_a = pointwise_eval(plbl_a, block.test.dset.data.data_lbl, block.test.dset.data.data_filterer, topk=topk, metric=metric)
     eval_b = pointwise_eval(plbl_b, block.test.dset.data.data_lbl, block.test.dset.data.data_filterer, topk=topk, metric=metric)
+    
+    eval_a = np.array(eval_a.sum(axis=1)).squeeze()
+    eval_b = np.array(eval_b.sum(axis=1)).squeeze()
     idxs = np.argsort(eval_b - eval_a)
 
     df = display_momos(pdset_a, pdset_b, test_dset, idxs)
