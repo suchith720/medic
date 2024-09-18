@@ -61,5 +61,7 @@ d = { 'settings': { 'branch': 'main',
             'medic.26_distillation-for-wikipedia-with-oak': { 'medic.26_distillation-for-wikipedia-with-oak.XCLearner.create_optimizer_and_scheduler': ( 'distillation-for-wikipedia-with-oak.html#xclearner.create_optimizer_and_scheduler',
                                                                                                                                                          'medic/26_distillation-for-wikipedia-with-oak.py')},
             'medic.27_ngame-for-orcas-with-input-concatenation': {},
-            'medic.28_dexa-for-wikiseealsotitles': { 'medic.28_dexa-for-wikiseealsotitles.get_label_remap': ( 'distillation-for-wikiseealsotitles-with-dexa.html#get_label_remap',
-                                                                                                              'medic/28_dexa-for-wikiseealsotitles.py')}}}
+            'medic.28_dexa-for-wikiseealsotitles': { 'medic.28_dexa-for-wikiseealsotitles.get_label_remap': ( 'dexa-for-wikiseealsotitles.html#get_label_remap',
+                                                                                                              'medic/28_dexa-for-wikiseealsotitles.py')},
+            'medic.29_distillation-for-wikiseealsotitles-with-dexa': { 'medic.29_distillation-for-wikiseealsotitles-with-dexa.get_label_remap': ( 'distillation-for-wikiseealsotitles-with-dexa.html#get_label_remap',
+                                                                                                                                                  'medic/29_distillation-for-wikiseealsotitles-with-dexa.py')}}}
