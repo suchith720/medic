@@ -67,4 +67,8 @@ d = { 'settings': { 'branch': 'main',
                                                                                                               'medic/28_dexa-for-wikiseealsotitles.py')},
             'medic.29_distillation-for-wikiseealsotitles-with-dexa': { 'medic.29_distillation-for-wikiseealsotitles-with-dexa.get_label_remap': ( 'distillation-for-wikiseealsotitles-with-dexa.html#get_label_remap',
                                                                                                                                                   'medic/29_distillation-for-wikiseealsotitles-with-dexa.py')},
-            'medic.30_bert-ngame-for-wikiseealsotitles-with-input-concatenation': {}}}
+            'medic.30_bert-ngame-for-wikiseealsotitles-with-input-concatenation': {},
+            'medic.31_momos-for-wikiseealsotitles': { 'medic.31_momos-for-wikiseealsotitles.get_label_remap': ( 'momos-for-wikiseealsotitles.html#get_label_remap',
+                                                                                                                'medic/31_momos-for-wikiseealsotitles.py'),
+                                                      'medic.31_momos-for-wikiseealsotitles.get_label_representation': ( 'momos-for-wikiseealsotitles.html#get_label_representation',
+                                                                                                                         'medic/31_momos-for-wikiseealsotitles.py')}}}
