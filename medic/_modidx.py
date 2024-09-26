@@ -77,4 +77,5 @@ d = { 'settings': { 'branch': 'main',
                                                'medic.32_momos-for-wikititles.XCLearner.create_optimizer_and_scheduler': ( 'momos-for-wikititles.html#xclearner.create_optimizer_and_scheduler',
                                                                                                                            'medic/32_momos-for-wikititles.py'),
                                                'medic.32_momos-for-wikititles.get_label_remap': ( 'momos-for-wikititles.html#get_label_remap',
-                                                                                                  'medic/32_momos-for-wikititles.py')}}}
+                                                                                                  'medic/32_momos-for-wikititles.py')},
+            'medic.34_distil-slm-for-wikiseealsotitles-with-oak': {}}}
