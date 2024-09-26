@@ -8,8 +8,8 @@ import os,torch, torch.multiprocessing as mp, pickle, numpy as np
 from transformers import DistilBertConfig
 
 from xcai.basics import *
-from xcai.models.oak import OAK008
-from xcai.models.distillation import DTL011,TCH004
+from xcai.models.oak import OAK009
+from xcai.models.distillation import DTL011,TCH001
 
 from xclib.utils.sparse import retain_topk
 
@@ -149,24 +149,24 @@ if __name__ == '__main__':
     )
 
     """ Teacher model """
-    embed_dim = 4096
-    m_teacher = TCH004.from_pretrained(f'{model_output}/teacher', n_data=block.train.dset.n_data, n_lbl=block.n_lbl, embed_dim=embed_dim)
-    m_teacher.init_transform(torch.zeros(m_teacher.config.dim, embed_dim).fill_diagonal_(1))
+    m_teacher = TCH001.from_pretrained(f'{model_output}/teacher', n_data=block.train.dset.n_data, n_lbl=block.n_lbl)
     m_teacher.freeze_embeddings()
+    
 
     lbl_remap, n_clusters = get_label_remap(m_teacher.lbl_repr.weight, cluster_sz=3)
 
     """ Student model """
     bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
 
-    m_student = OAK008.from_pretrained('sentence-transformers/msmarco-distilbert-base-v4', batch_size=bsz, num_batch_labels=5000,
+    embed_dim = 4096
+    m_student = OAK009.from_pretrained('sentence-transformers/msmarco-distilbert-base-v4', batch_size=bsz, num_batch_labels=5000,
                                        margin=0.3, num_negatives=10, tau=0.1, apply_softmax=True,
                                        
                                        data_aug_meta_prefix='lnk2data', lbl2data_aug_meta_prefix=None,
                                        data_pred_meta_prefix=None, lbl2data_pred_meta_prefix=None,
                                        
                                        num_metadata=block.train.dset.meta['lnk_meta'].n_meta, resize_length=5000,
-                                       n_clusters=n_clusters, n_labels=block.n_lbl,
+                                       n_clusters=n_clusters, n_labels=block.n_lbl, embed_dim=embed_dim,
                                        
                                        calib_margin=0.05, calib_num_negatives=10, calib_tau=0.1, calib_apply_softmax=False,
                                        calib_loss_weight=0.1, use_calib_loss=True,
@@ -183,6 +183,7 @@ if __name__ == '__main__':
     m_student.init_meta_embeddings()
     m_student.init_label_embeddings()
     m_student.set_label_remap(lbl_remap)
+    m_student.init_transform()
     
     # meta_embeddings = np.load(meta_embed_file)
     # m_student.encoder.set_pretrained_meta_embeddings(torch.tensor(meta_embeddings, dtype=torch.float32))
@@ -190,12 +191,13 @@ if __name__ == '__main__':
     m_student.encoder.freeze_pretrained_meta_embeddings()
 
     """ Distillation model """
-    model = DTL011(DistilBertConfig(), m_student=m_student, m_teacher=m_teacher, bsz=bsz, tn_targ=5000, margin=0.3, tau=0.1, 
-                   n_negatives=10, apply_softmax=True, bandit_learning_rate=0.01, bandit_minimum_value=0.05, bandit_collector=100)
+    model = DTL004(DistilBertConfig(), m_student=m_student, m_teacher=m_teacher, bsz=bsz, tn_targ=5000, margin=0.3, tau=0.1,
+                   n_negatives=10, apply_softmax=True, teacher_data_student_label_loss_weight=1.0,
+                   student_data_teacher_label_loss_weight=0.0, data_mse_loss_weight=0.1, label_mse_loss_weight=0.0)
     
     """ Training """
     metric = PrecRecl(block.n_lbl, block.test.data_lbl_filterer, prop=block.train.dset.data.data_lbl,
-                      pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200])
+                      pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], pa=0.5, pb=0.4)
 
     learn = XCLearner(
         model=model, 
