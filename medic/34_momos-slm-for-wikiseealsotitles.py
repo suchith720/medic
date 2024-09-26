@@ -40,7 +40,7 @@ def get_label_remap(lbl_repr:torch.Tensor, cluster_sz:int=3):
 
     return lbl_remap, len(clusters)
 
-# %% ../nbs/34_momos-slm-for-wikiseealsotitles.ipynb 8
+# %% ../nbs/34_momos-slm-for-wikiseealsotitles.ipynb 10
 if __name__ == '__main__':
     build_block = False
     pkl_dir = '/home/scai/phd/aiz218323/scratch/datasets/'
