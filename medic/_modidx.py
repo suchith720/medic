@@ -81,4 +81,5 @@ d = { 'settings': { 'branch': 'main',
             'medic.34_momos-slm-for-wikiseealsotitles': { 'medic.34_momos-slm-for-wikiseealsotitles.DTL011.get_label_representation': ( 'momos-slm-for-wikiseealsotitles.html#dtl011.get_label_representation',
                                                                                                                                         'medic/34_momos-slm-for-wikiseealsotitles.py'),
                                                           'medic.34_momos-slm-for-wikiseealsotitles.get_label_remap': ( 'momos-slm-for-wikiseealsotitles.html#get_label_remap',
-                                                                                                                        'medic/34_momos-slm-for-wikiseealsotitles.py')}}}
+                                                                                                                        'medic/34_momos-slm-for-wikiseealsotitles.py')},
+            'medic.35_oak-for-wikiseealsotitles-free-param-initialization': {}}}
