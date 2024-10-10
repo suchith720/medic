@@ -84,4 +84,5 @@ d = { 'settings': { 'branch': 'main',
                                                                                                                         'medic/34_momos-slm-for-wikiseealsotitles.py')},
             'medic.35_oak-for-wikiseealsotitles-free-param-initialization': {},
             'medic.36_oak-for-wikiseealsotitles-free-param-clustering': { 'medic.36_oak-for-wikiseealsotitles-free-param-clustering.get_metadata_remap': ( 'oak-for-wikiseealsotitles-free-param-clustering.html#get_metadata_remap',
-                                                                                                                                                           'medic/36_oak-for-wikiseealsotitles-free-param-clustering.py')}}}
+                                                                                                                                                           'medic/36_oak-for-wikiseealsotitles-free-param-clustering.py')},
+            'medic.37_ngame-for-wikiseealsotitles-with-llama': {}}}
