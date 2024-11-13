@@ -108,4 +108,6 @@ d = { 'settings': { 'branch': 'main',
             'medic.42_dexa-for-wikititles': { 'medic.42_dexa-for-wikititles.get_label_remap': ( 'dexa-for-wikititles.html#get_label_remap',
                                                                                                 'medic/42_dexa-for-wikititles.py')},
             'medic.43_distillation-for-wikititles-with-dexa': { 'medic.43_distillation-for-wikititles-with-dexa.get_label_remap': ( 'distillation-for-wikititles-with-dexa.html#get_label_remap',
-                                                                                                                                    'medic/43_distillation-for-wikititles-with-dexa.py')}}}
+                                                                                                                                    'medic/43_distillation-for-wikititles-with-dexa.py')},
+            'medic.44_oak-for-wikiseealsotitles-with-input-concatenation': {},
+            'medic.45_distillation-for-wikititles-with-ngame': {}}}
