@@ -55,30 +55,12 @@ if __name__ == "__main__":
         block.test.dset.data.lbl_info['input_ids'] = block.test.dset.data.lbl_info['input_ids_aug_hlk']
         block.test.dset.data.lbl_info['attention_mask'] = block.test.dset.data.lbl_info['attention_mask_aug_hlk']
 
-    elif dataset_type == 'amazontitles131':
-        pkl_file = f'{pkl_dir}/processed/amazontitles131_data-meta_distilbert-base-uncased_xcs_cat-128.pkl'
-        with open(pkl_file, 'rb') as file: block = pickle.load(file)
-
-        block.train.dset.data.data_info['input_ids'] = block.train.dset.data.data_info['input_ids_aug_cat']
-        block.train.dset.data.data_info['attention_mask'] = block.train.dset.data.data_info['attention_mask_aug_cat']
-        block.test.dset.data.data_info['input_ids'] = block.test.dset.data.data_info['input_ids_aug_cat']
-        block.test.dset.data.data_info['attention_mask'] = block.test.dset.data.data_info['attention_mask_aug_cat']
-    
-        block.train.dset.data.lbl_info['input_ids'] = block.train.dset.data.lbl_info['input_ids_aug_cat']
-        block.train.dset.data.lbl_info['attention_mask'] = block.train.dset.data.lbl_info['attention_mask_aug_cat']
-        block.test.dset.data.lbl_info['input_ids'] = block.test.dset.data.lbl_info['input_ids_aug_cat']
-        block.test.dset.data.lbl_info['attention_mask'] = block.test.dset.data.lbl_info['attention_mask_aug_cat']
-
     elif dataset_type == 'wikiseealso':
         pkl_file = f'{pkl_dir}/processed/wikiseealso_data-metas_distilbert-base-uncased_xcs_cat-hlk-512.pkl'
         with open(pkl_file, 'rb') as file: block = pickle.load(file)
 
     elif dataset_type == 'wikipedia':
         pkl_file = f'{pkl_dir}/processed/wikipedia_data-metas_distilbert-base-uncased_xcs-hlk-512.pkl'
-        with open(pkl_file, 'rb') as file: block = pickle.load(file)
-
-    elif dataset_type == 'amazon131':
-        pkl_file = f'{pkl_dir}/processed/amazon131_data-meta_distilbert-base-uncased_xcs_cat-512.pkl'
         with open(pkl_file, 'rb') as file: block = pickle.load(file)
 
     block.train.dset.meta = {}

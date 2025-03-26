@@ -12,7 +12,7 @@ from xcai.models.PPP0XX import DBT009,DBT011
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 os.environ['WANDB_PROJECT']='medic_00-wikiseealsotitles'
 
-# %% ../nbs/00_ngame-for-wikiseealsotitles-with-input-concatenation.ipynb 48
+# %% ../nbs/00_ngame-for-wikiseealsotitles-with-input-concatenation.ipynb 37
 if __name__ == '__main__':
     build_block = False
 

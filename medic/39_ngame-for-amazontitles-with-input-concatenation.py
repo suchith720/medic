@@ -10,7 +10,7 @@ from xcai.models.PPP0XX import DBT009,DBT011
 
 # %% ../nbs/39_ngame-for-amazontitles-with-input-concatenation.ipynb 4
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
-os.environ['WANDB_PROJECT']='medic_08-amazontitles131'
+os.environ['WANDB_PROJECT']='medic_08-amazontitles'
 
 # %% ../nbs/39_ngame-for-amazontitles-with-input-concatenation.ipynb 6
 if __name__ == '__main__':
